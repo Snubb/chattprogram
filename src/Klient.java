@@ -37,6 +37,7 @@ public class Klient {
             Thread listener = new Thread(in);
             listener.start();
             boolean run = true;
+            out.println(name + " has connected!");
             while (run) {
                 String msg = tgb.nextLine();
                 if (msg.equals("quit")) {

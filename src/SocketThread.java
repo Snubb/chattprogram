@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -24,7 +25,8 @@ public class SocketThread implements Runnable {
                 Thread listener = new Thread(in);
                 listener.start();
                 System.out.println("New connection found");
-                model.addConnection(socket);
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                model.addConnection(socket, out);
             } catch (IOException e) {
                 e.printStackTrace();
             }

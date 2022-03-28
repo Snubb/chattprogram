@@ -14,6 +14,8 @@ public class Model {
     ServerSocket serverSocket;
     Socket socket;
     ArrayList<Socket> socketArrayList = new ArrayList<>();
+    ArrayList<PrintWriter> printWriterArrayList = new ArrayList<>();
+
     public Model() {
 
     }
@@ -59,8 +61,9 @@ public class Model {
         }
     }
 
-    public void addConnection(Socket newSocket) {
+    public void addConnection(Socket newSocket, PrintWriter out) {
         socketArrayList.add(newSocket);
+        printWriterArrayList.add(out);
     }
 
     public void startServer(Model model) {
@@ -93,9 +96,15 @@ public class Model {
                     } else {
                         //System.out.println(msg);
                         //out.println(msg);
+                        for (int i = 0; i < printWriterArrayList.size(); i++) {
+                            printWriterArrayList.get(i).println(msg);
+                        }
                     }
                 }
                 //out.close();
+                for (int i = 0; i < printWriterArrayList.size(); i++) {
+                    printWriterArrayList.get(i).close();
+                }
                 socket.close();
             }
         } catch (IOException e) {
