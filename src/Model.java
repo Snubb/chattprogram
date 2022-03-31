@@ -67,48 +67,8 @@ public class Model {
     }
 
     public void startServer(Model model) {
-        boolean run = true;
-
-        try {
-            serverSocket = new ServerSocket(port);
-            while (true) {
-                System.out.println("Waiting for connections!");
-                //socket = serverSocket.accept();
-                SocketThread socketThread = new SocketThread(serverSocket, model);
-                Thread server = new Thread(socketThread);
-                server.start();
-                // Go
-                //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                //BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                /*ListenerThread in =
-                        new ListenerThread(new BufferedReader(new InputStreamReader(socket.getInputStream())));
-                Thread listener = new Thread(in);
-                listener.start();
-                System.out.println("Client connected!");*/
-                Scanner tgb = new Scanner(System.in);
-                //Protocol
-                while (run) {
-                    //out.println("SERVER: Welcome! \n What's your name?");
-                    String msg = tgb.nextLine();
-                    if (msg.endsWith("quit")) {
-                        run = false;
-                    } else {
-                        //System.out.println(msg);
-                        //out.println(msg);
-                        for (int i = 0; i < printWriterArrayList.size(); i++) {
-                            printWriterArrayList.get(i).println(msg);
-                        }
-                    }
-                }
-                //out.close();
-                for (int i = 0; i < printWriterArrayList.size(); i++) {
-                    printWriterArrayList.get(i).close();
-                }
-                socket.close();
-            }
-        } catch (IOException e) {
-            System.out.println("Server fail");
-        }
+        ServerThread serverThread = new ServerThread(model, port);
+        Thread server = new Thread(serverThread);
+        server.start();
     }
 }
